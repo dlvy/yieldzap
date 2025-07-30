@@ -137,3 +137,90 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Rust/Cargo specific
+**/target/
+**/*.rs.bk
+Cargo.lock
+# Keep Cargo.lock for applications, ignore for libraries
+# Uncomment the next line if this is a library
+# Cargo.lock
+
+# WebAssembly build artifacts
+**/target/wasm32-unknown-unknown/
+**/pkg/
+**/*.wasm
+**/*.wasm.d.ts
+
+# Soroban/Stellar specific
+.soroban/
+.stellar/
+**/.soroban/
+**/.stellar/
+
+# Smart contract build artifacts
+*.wasm
+*.optimized.wasm
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+# Backend build outputs
+backend/**/dist/
+backend/**/build/
+
+# Frontend specific (Next.js already covered above)
+frontend/**/.next/
+frontend/**/out/
+frontend/**/.vercel/
+
+# Script logs and temporary files
+scripts/**/*.log
+scripts/**/temp/
+scripts/**/tmp/
+
+# Environment and configuration files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+secrets.json
+private-keys/
+*.pem
+*.key
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Test coverage and artifacts
+coverage/
+test-results/
+playwright-report/
+test-output/
+
+# Package manager files
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Temporary and cache directories
+tmp/
+temp/
+.tmp/
+.temp/
