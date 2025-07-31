@@ -300,6 +300,6 @@ Stay composable, stay based 🧙‍♂️
 ## TODO
 
     ✅ Write the real Soroswap Aggregator + DeFindex Vault calls
-    🖼 Start Frontend: Build the UI for users to call zap_and_deposit
+    ✅ Start Frontend: Build the UI for users to call zap_and_deposit
     🔁 Set up local Soroban devnet so you can test locally
     🤖 Build the backend bot (rebalancer or AI strategy engine)
