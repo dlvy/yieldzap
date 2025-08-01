@@ -400,22 +400,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Success Notification */}
-      <div style={{
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        background: '#10b981',
-        color: 'white',
-        padding: '1rem 1.5rem',
-        borderRadius: '12px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        maxWidth: '300px',
-        opacity: '0.95'
-      }}>
-        🚀 Frontend Successfully Built! YieldZap UI is now ready for users to call zap_and_deposit.
-      </div>
     </div>
   );
 }
