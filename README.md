@@ -1,6 +1,58 @@
 # 🚀 YieldZap: One-Click Yield Farming on Stellar 🌠
 
-Welcome to **YieldZap** — the most based way to zap your bags into yield 
+Welcome to **YieldZap** — the ## 🚀 Building and Deploying the Zap Contract
+
+### 🏗️ Build the Contract
+
+```bash
+cd contracts/zap
+cargo build --target wasm32-unknown-unknown --release
+```
+
+### 🌐 Setup Local Development Network
+
+```bash
+# Start local Stellar devnet
+docker run --rm -it -p 8000:8000 \
+  --name stellar-local \
+  stellar/quickstart:latest \
+  --local \
+  --enable-soroban-rpc
+
+# In another terminal, configure the network
+stellar network add local \
+  --rpc-url http://localhost:8000/soroban/rpc \
+  --network-passphrase "Standalone Network ; February 2017"
+
+# Create and fund admin account
+stellar keys generate admin
+stellar keys fund admin --network local
+```
+
+### 🚀 Deploy the Contract
+
+```bash
+cd contracts/zap
+
+# Deploy to local network
+stellar contract deploy \
+  --wasm target/wasm32-unknown-unknown/release/zap.wasm \
+  --source admin \
+  --network local
+
+# Deploy to testnet (when ready)
+stellar contract deploy \
+  --wasm target/wasm32-unknown-unknown/release/zap.wasm \
+  --source admin \
+  --network testnet
+```
+
+The deployment will return a contract address like:
+```
+CB5EPRHAAN2STQXOR7AS7MEGOJYNU5P5X5MBBMB24RQR47LF26RMCFKB
+```
+
+Save this address - it's your deployed YieldZap contract!way to zap your bags into yield 
 generating vaults on Stellar. Built using 🔮 **Soroswap** and 💰 **DeFindex**, 
 this dApp turns basic DeFi flows into a single click.
 
@@ -42,9 +94,23 @@ All powered by fully composable contracts, built natively on Stellar + Soroban.
 ### 📦 Prereqs
 
 - [Rust + Cargo](https://rustup.rs/)
-- [Soroban CLI](https://soroban.stellar.org/docs/getting-started/installation)
+- [Stellar CLI](https://github.com/stellar/stellar-cli) (v23.0.0+)
 - Node.js + `pnpm`
 - Git brain
+
+### 🛠️ Installing Stellar CLI
+
+```bash
+# Install required system dependencies (Ubuntu/Debian)
+sudo apt update
+sudo apt install -y pkg-config libudev-dev libssl-dev
+
+# Install Stellar CLI from source
+cargo install --locked stellar-cli --features opt
+
+# Verify installation
+stellar --version
+```
 
 ### 📁 Folder Structure
 
@@ -126,7 +192,7 @@ Stay tuned. Or PR it yourself, legend. 👑
 - � **Notification System** - Real-time yield performance alerts
 
 ### 🔧 Development Tools
-- 🚀 **Soroban CLI** - Contract deployment and testing
+- 🚀 **Stellar CLI** - Contract deployment and testing
 - 📦 **pnpm** - Package management and workspace coordination
 - 🧪 **Cargo** - Rust compilation and contract optimization
 
@@ -297,9 +363,149 @@ Stay composable, stay based 🧙‍♂️
 
 
 
+## 🧪 Local Development Setup ✅
+
+### 🔧 Setting Up Local Stellar Devnet ✅
+
+For local testing and development:
+
+```bash
+# Start local Stellar Core with Soroban RPC
+docker run --rm -it -p 8000:8000 \
+  --name stellar-local \
+  stellar/quickstart:latest \
+  --local \
+  --enable-soroban-rpc
+
+# Configure network in Stellar CLI
+stellar network add local \
+  --rpc-url http://localhost:8000/soroban/rpc \
+  --network-passphrase "Standalone Network ; February 2017"
+
+# Create and fund accounts
+stellar keys generate admin
+stellar keys generate user
+stellar keys fund admin --network local
+stellar keys fund user --network local
+```
+
+### 📋 Local Devnet Status
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| **Stellar CLI** | ✅ Installed | v23.0.0+ with local network support |
+| **Local Network** | ✅ Running | Available via Docker quickstart |
+| **Test Accounts** | ✅ Created | Admin & User identities funded |
+| **Network Config** | ✅ Complete | RPC: `http://localhost:8000/soroban/rpc` |
+| **Contract Deployment** | ✅ Working | Soroban SDK 22.0.0 compatibility |
+
+### 🚀 Quick Start Commands
+
+```bash
+# 1. Start local devnet
+docker run --rm -it -p 8000:8000 --name stellar-local \
+  stellar/quickstart:latest --local --enable-soroban-rpc
+
+# 2. Setup accounts (in another terminal)
+stellar network add local --rpc-url http://localhost:8000/soroban/rpc \
+  --network-passphrase "Standalone Network ; February 2017"
+stellar keys generate admin && stellar keys fund admin --network local
+
+# 3. Build and deploy contract
+cd contracts/zap
+cargo build --target wasm32-unknown-unknown --release
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/zap.wasm \
+  --source admin --network local
+```
+
+### 🔧 Available Scripts ✅
+
+Development helper scripts for easy contract management:
+
+| Operation | Command | Purpose |
+|-----------|---------|---------|
+| **Build Contract** | `cd contracts/zap && cargo build --target wasm32-unknown-unknown --release` | Compile optimized WASM |
+| **Deploy Local** | `stellar contract deploy --wasm [...] --source admin --network local` | Deploy to local devnet |
+| **Deploy Testnet** | `stellar contract deploy --wasm [...] --source admin --network testnet` | Deploy to testnet |
+| **Fund Account** | `stellar keys fund <account> --network local` | Add XLM to account |
+| **Check Balance** | `stellar keys fund <account> --network local` | View account balance |
+
+### 📝 Contract Configuration
+
+Make sure your `contracts/zap/Cargo.toml` has optimized settings:
+
+```toml
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+```
+
+### ⚠️ Migration Notes
+
+**✅ Successfully Migrated from Soroban CLI to Stellar CLI**
+
+The project has been updated to use the new **Stellar CLI v23.0.0** (formerly Soroban CLI). Key changes:
+
+- **CLI Command**: `soroban` → `stellar`
+- **Installation**: Now requires system dependencies and cargo install
+- **Networks**: Updated network configuration format
+- **Compatibility**: Using Soroban SDK v22.0.0 with Stellar Core v22.3.0
+
+All deployment commands in this README use the new Stellar CLI syntax.
+
+### 🐛 Troubleshooting ✅
+
+**Network Issues**:
+```bash
+# Stop any existing containers
+docker rm -f stellar-local
+
+# Start fresh
+docker run --rm -it -p 8000:8000 --name stellar-local \
+  stellar/quickstart:latest --local --enable-soroban-rpc
+```
+
+**Reset Network Configuration**:
+```bash
+# Remove local network config
+stellar network rm local
+
+# Re-add with correct settings
+stellar network add local \
+  --rpc-url http://localhost:8000/soroban/rpc \
+  --network-passphrase "Standalone Network ; February 2017"
+```
+
+**Contract Deployment Issues**:
+```bash
+# Verify WASM compilation
+cd contracts/zap
+cargo build --target wasm32-unknown-unknown --release
+ls -la target/wasm32-unknown-unknown/release/zap.wasm
+
+# Check account has funds
+stellar keys fund admin --network local
+
+# Verify network connectivity
+curl http://localhost:8000/soroban/rpc -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
+```
+
+---
+
 ## TODO
 
     ✅ Write the real Soroswap Aggregator + DeFindex Vault calls
     ✅ Start Frontend: Build the UI for users to call zap_and_deposit
-    🔁 Set up local Soroban devnet so you can test locally
+    ✅ Set up local Stellar devnet and migrate to Stellar CLI v23.0.0
+    ✅ Deploy YieldZap contract successfully to local devnet
     🤖 Build the backend bot (rebalancer or AI strategy engine)
+    🌐 Deploy to Stellar testnet and mainnet
+    🔗 Integrate with real Soroswap and DeFindex contract addresses

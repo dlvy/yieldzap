@@ -1,12 +1,10 @@
 [package]
-name = "zap"
+name = "hello-world"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-soroban-sdk = "22.0.0"
-# Required for token operations
-soroban-token-sdk = "22.0.0"
+soroban-sdk = "21.0.0"
 
 [lib]
 crate-type = ["cdylib"]
@@ -20,7 +18,3 @@ debug-assertions = false
 panic = "abort"
 codegen-units = 1
 lto = true
-
-[profile.release-with-logs]
-inherits = "release"
-debug-assertions = true

@@ -1,12 +1,10 @@
 [package]
-name = "zap"
+name = "hello"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-soroban-sdk = "22.0.0"
-# Required for token operations
-soroban-token-sdk = "22.0.0"
+soroban-sdk = "22.0"
 
 [lib]
 crate-type = ["cdylib"]
